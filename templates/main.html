@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,  initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="simple BlockChain">
+    <meta name="autdor" content="colyk">
+    <title>Stock Visualiser</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Site title and basic info-->
+    <div class="mx-auto" style="width: auto;">
+        <div class="col text-light bg-dark">
+            <h1 style="padding:20px 0px 0px 0px; text-align: center;">Stock visualizer</h1>
+            <p style="padding:0px 0px 20px 0px; text-align: center;">Stock visualizer gives You opportunity to visualise
+                data
+                from choosen intrument.</br>
+                You can also choose interval and period of data.</p>
+        </div>
+    </div>
+
+    <!-- Components to choose -->
+    <div class="container bg-secondary text-white rounded " style="width: auto; padding:10px 10px 10px 10px; ">
+        <div class="row g-3 align-items-center">
+            <!-- Stock selection -->
+            <form method="POST" action="/test" name="stock_selection">
+                <div class="col-auto">
+                    <label for="stock_select" class="col-form-label">Select stock</label>
+                </div>
+
+                <div class="col-auto">
+                    <select class="form-select" aria-label="Select" name="stockname">
+                        <option selected value="eur-usd">EUR/USD</option>
+                        <option value="gbp-usd">GBP/USD</option>
+                        <option value="eur-pln">EUR/PLN</option>
+                        <option value="usd-cad">USD/CAD</option>
+                        <option value="platinum">PLATINUM</option>
+                        <option value="gold">GOLD</option>
+                        <option value="silver">SILVER</option>
+                        <option value="copper">COPPER</option>
+                        <option value="activision-inc">ACTIVISION INC.</option>
+                        <option value="cdproject">CD PROJEKT RED S.A.</option>
+                        <option value="nintendo-ltd">NINTENDO LTD.</option>
+                        <option value="11bit">11BIT STUDIOS S.A.</option>
+                    </select>
+                </div>
+
+                <!-- Start date selection -->
+                <div class="col-auto">
+                    <label for="start_date" class="col-form-label">Select start date</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" name="startdate" format="dd-mm-yyyy">
+                </div>
+
+                <!-- End date selection -->
+                <div class="col-auto">
+                    <label for="end_date" class="col-form-label">Select end date</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" name="enddate" format="dd-mm-yyyy">
+                </div>
+
+                <!-- Interval selection -->
+                <div class="col-auto">
+                    <label for="interval" class="col-form-label">Select interval</label>
+                </div>
+                <div class="col-auto">
+                    <select name="interval" class="form-select" aria-label="Select">
+                        <option selected value="Daily">Daily</option>
+                        <option selected value="Weekly">Weekly</option>
+                        <option selected value="Monthly">Monthly</option>
+                    </select>
+                </div>
+
+                <!-- Generating plots -->
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-primary" value="Create plots">
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
