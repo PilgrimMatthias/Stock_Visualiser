@@ -31,6 +31,14 @@ app = Flask(__name__)
 
 
 def create_plot(stock_name, start_date, end_date, interval, df):
+    """
+    Method responsible for creating plot with declaration:
+    - Name of stock
+    - Lower date
+    - Upper date
+    - Interval (daily, weekly or yearly)
+    - Df <- data frame
+    """
     temp_df = df[
         (df["instrument_name"] == stock_name)
         & (df["date"] >= start_date)
@@ -45,11 +53,17 @@ def create_plot(stock_name, start_date, end_date, interval, df):
 
 @app.route("/")
 def main_site():
+    """
+    Method reponsible for generating base site
+    """
     return render_template("main.html")
 
 
-@app.route("/test", methods=["POST"])
+@app.route("/", methods=["POST"])
 def generate_plot():
+    """
+    Method reponsible for generating plot on site
+    """
     if request.method == "POST":
         stock_name = request.form["stockname"]
         start_date = request.form["startdate"]
@@ -67,7 +81,7 @@ def generate_plot():
         if not os.path.exists("static/images"):
             os.makedirs("static/images")
 
-        plot.savefig(os.path.join("static", "images", "plot.png"))
+        plot.savefig(os.path.join("static", "images", "plot.png"), dpi=199)
 
         # Close the figure to avoid overwriting
         plot.close()
@@ -75,12 +89,15 @@ def generate_plot():
         # return "<h1>STOCK_NAME: {0}</h1> <h1>START_DATE: {1}</h1> <h1>END_DATE: {2}</h1> <h1>INTERVAL: {3}</h1> ".format(
         #     stock_name, start_date, end_date, interval
         # )
+        # return render_template(
+        #     "test_plot.html",
+        #     stock_name=stock_name,
+        #     start_date=start_date,
+        #     end_date=end_date,
+        #     interval=interval,
+        # )
         return render_template(
-            "test_plot.html",
-            stock_name=stock_name,
-            start_date=start_date,
-            end_date=end_date,
-            interval=interval,
+            "main.html", plot_img=os.path.join("static", "images", "plot.png")
         )
 
 
