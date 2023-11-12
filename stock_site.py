@@ -9,11 +9,13 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from flask import Flask, render_template, request
 
-sns.set()
+sns.set_style("whitegrid")
 
+# Connection to sqlite db
 conn = sqlite3.connect("stock_prices.db")
 c = conn.cursor()
 
+# Selecting data with sql statement
 df = c.execute(
     """select instrument_name, currency_name, date, interval, last_price, open_price ,max_price, min_price, volume, change
 from stock 
@@ -21,12 +23,15 @@ left join instrument on instrument.instrument_id = stock.instrument_id
 left join currency on currency.currency_id  = stock.currency_id;"""
 ).fetchall()
 
+# Creating dataframe
 df = pd.DataFrame(df, columns=[col[0] for col in c.description])
 df["date"] = df["date"].apply(lambda x: datetime.strptime(x, "%d.%m.%Y"))
 
+# Closing database connections
 conn.commit()
 conn.close()
 
+# Creating Flask App
 app = Flask(__name__)
 
 
@@ -39,6 +44,7 @@ def create_plot(stock_name, start_date, end_date, interval, df):
     - Interval (daily, weekly or yearly)
     - Df <- data frame
     """
+    # Getting data from selection
     temp_df = df[
         (df["instrument_name"] == stock_name)
         & (df["date"] >= start_date)
@@ -46,7 +52,42 @@ def create_plot(stock_name, start_date, end_date, interval, df):
         & (df["interval"] == interval)
     ]
 
+    # Setting size of plot figure
+    fig = plt.figure(figsize=(15, 7.5))
+
+    # Creating line plot for current selection
     plt.plot(temp_df["date"], temp_df["last_price"])
+
+    # Title of plot
+    plt.title(
+        "{0}, period: {1} - {2}".format(stock_name.upper(), start_date, end_date),
+        fontsize=16,
+        loc="left",
+        pad=20,
+        color="#595959",
+    )
+
+    # Y axis label
+    plt.ylabel(
+        "Value in {0}".format(temp_df["currency_name"].unique()[0]),
+        fontsize=14,
+        labelpad=20,
+        color="#A6A6A6",
+    )
+
+    # X axis label
+    plt.xlabel(
+        "Interval: {0}".format(interval), fontsize=14, labelpad=20, color="#A6A6A6"
+    )
+
+    # Changing font and color of y and x axis values
+    plt.tick_params(colors="#595959", which="both")
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    # Changing rotation of x axis values for Daily and Weekly interal
+    if interval == "Daily" or interval == "Weekly":
+        plt.xticks(rotation=45)
 
     return plt
 
@@ -62,7 +103,7 @@ def main_site():
 @app.route("/", methods=["POST"])
 def generate_plot():
     """
-    Method reponsible for generating plot on site
+    Method reponsible for generating plot on site from user selections
     """
     if request.method == "POST":
         stock_name = request.form["stockname"]
@@ -70,6 +111,7 @@ def generate_plot():
         end_date = request.form["enddate"]
         interval = request.form["interval"]
 
+        # Crearting plot
         plot = create_plot(
             stock_name=stock_name,
             start_date=start_date,
@@ -81,21 +123,13 @@ def generate_plot():
         if not os.path.exists("static/images"):
             os.makedirs("static/images")
 
-        plot.savefig(os.path.join("static", "images", "plot.png"), dpi=199)
+        # Saving plot to static/images
+        plot.savefig(os.path.join("static", "images", "plot.png"))
 
-        # Close the figure to avoid overwriting
+        # Closing the figure to avoid overwriting
         plot.close()
 
-        # return "<h1>STOCK_NAME: {0}</h1> <h1>START_DATE: {1}</h1> <h1>END_DATE: {2}</h1> <h1>INTERVAL: {3}</h1> ".format(
-        #     stock_name, start_date, end_date, interval
-        # )
-        # return render_template(
-        #     "test_plot.html",
-        #     stock_name=stock_name,
-        #     start_date=start_date,
-        #     end_date=end_date,
-        #     interval=interval,
-        # )
+        # Opening site with plot
         return render_template(
             "main.html", plot_img=os.path.join("static", "images", "plot.png")
         )

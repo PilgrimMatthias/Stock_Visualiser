@@ -26,68 +26,69 @@
 
     <!-- Components to choose -->
     <div class="container bg-secondary text-white rounded " style="width: auto; padding:10px 10px 10px 10px; ">
-        <div class="row g-3 align-items-center">
+        <div class="form-row align-items-center">
             <!-- Stock selection -->
-            <form method="POST" action="/" name="stock_selection">
-                <div class="col-auto">
-                    <label for="stock_select" class="col-form-label">Select stock</label>
-                </div>
+            <form method="POST" action="/" name="stock_selection" class="form-inline d-inline-flex p-2 flex-wrap">
 
-                <div class="col-auto">
-                    <select class="form-select" aria-label="Select" name="stockname">
-                        <option selected value="eur-usd">EUR/USD</option>
-                        <option value="gbp-usd">GBP/USD</option>
-                        <option value="eur-pln">EUR/PLN</option>
-                        <option value="usd-cad">USD/CAD</option>
-                        <option value="platinum">PLATINUM</option>
-                        <option value="gold">GOLD</option>
-                        <option value="silver">SILVER</option>
-                        <option value="copper">COPPER</option>
-                        <option value="activision-inc">ACTIVISION INC.</option>
-                        <option value="cdproject">CD PROJEKT RED S.A.</option>
-                        <option value="nintendo-ltd">NINTENDO LTD.</option>
-                        <option value="11bit">11BIT STUDIOS S.A.</option>
-                    </select>
+                <!-- Instrument selection -->
+                <div class="control-group flex-col-md-6 my-1 justify-content-center align-items-center">
+                    <div class="input-group">
+                        <label class="form-check-label" style="padding: 10px;" for="stockname">Select instrument</label>
+                        <select class="form-control-input" aria-label="Select" name="stockname" id="stockname">
+                            <option selected value="eur-usd">EUR/USD</option>
+                            <option value="gbp-usd">GBP/USD</option>
+                            <option value="eur-pln">EUR/PLN</option>
+                            <option value="usd-cad">USD/CAD</option>
+                            <option value="platinum">PLATINUM</option>
+                            <option value="gold">GOLD</option>
+                            <option value="silver">SILVER</option>
+                            <option value="copper">COPPER</option>
+                            <option value="activision-inc">ACTIVISION INC.</option>
+                            <option value="cdproject">CD PROJEKT RED S.A.</option>
+                            <option value="nintendo-ltd">NINTENDO LTD.</option>
+                            <option value="11bit">11BIT STUDIOS S.A.</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Start date selection -->
-                <div class="col-auto">
-                    <label for="start_date" class="col-form-label">Select start date</label>
-                </div>
-                <div class="col-auto">
-                    <input type="date" name="startdate" format="dd-mm-yyyy">
+                <div class="control-group flex-col-md-6 my-1 justify-content-center align-items-center">
+                    <div class="input-group">
+                        <label class="form-check-label" style="padding: 10px;">Select start date</label>
+                        <input type="date" name="startdate" format="dd-mm-yyyy">
+                    </div>
                 </div>
 
+
                 <!-- End date selection -->
-                <div class="col-auto">
-                    <label for="end_date" class="col-form-label">Select end date</label>
-                </div>
-                <div class="col-auto">
-                    <input type="date" name="enddate" format="dd-mm-yyyy">
+                <div class="control-group flex-col-md-6 my-1 justify-content-center align-items-center">
+                    <div class="input-group">
+                        <label class="form-check-label" style="padding: 10px;">Select end date</label>
+                        <input type="date" name="enddate" format="dd-mm-yyyy">
+                    </div>
                 </div>
 
                 <!-- Interval selection -->
-                <div class="col-auto">
-                    <label for="interval" class="col-form-label">Select interval</label>
-                </div>
-                <div class="col-auto">
-                    <select name="interval" class="form-select" aria-label="Select">
-                        <option selected value="Daily">Daily</option>
-                        <option selected value="Weekly">Weekly</option>
-                        <option selected value="Monthly">Monthly</option>
-                    </select>
+                <div class="control-group flex-col-md-6 my-1 justify-content-center align-items-center">
+                    <div class="input-group">
+                        <label class="form-check-label" style="padding: 10px;">Select interval</label>
+                        <select name="interval" class="form-select-input" aria-label="Select">
+                            <option selected value="Daily">Daily</option>
+                            <option selected value="Weekly">Weekly</option>
+                            <option selected value="Monthly">Monthly</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Generating plots -->
-                <div class="col-auto">
-                    <input type="submit" class="btn btn-primary" value="Create plots">
-                </div>
+                <input type="submit" class="btn btn-light" value="Create plots"
+                    style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;">
             </form>
-
-
         </div>
     </div>
-    <img src="{{ plot_img }}">
+    <div class="text-center">
+        <img src="{{ plot_img }}" class="img-fluid">
+    </div>
 </body>
 
 </html>
